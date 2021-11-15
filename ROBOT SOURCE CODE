@@ -1,0 +1,109 @@
+
+/*------ Arduino Line Follower Code----- */
+/*-------definning inputs------*/
+#define LS1 2 // left sensor
+#define LS2 9 // left-end
+#define RS 3 //right sensor
+#define buttonPin 8 //push button for unit load
+/*-------definning Outputs------*/
+#define LM1 4 // left motor
+#define LM2 5 // left motor
+#define RM1 6 // right motor
+#define RM2 7 // right motor
+#define ledPin = 13; // the LED pin
+int ledState = LOW; // ledState used to set the LED
+int buttonState = LOW;
+//defining variables for the LED
+unsigned long previousMillis = 0; // will store last time LED was updated
+const long interval = 300; // interval at which to blink (milliseconds)
+void setup() {
+52
+// set the digital pin as output/input:
+pinMode(LS1, INPUT);
+pinMode(LS2, INPUT);
+pinMode(RS, INPUT);
+pinMode(buttonPin , INPUT);
+pinMode(LM1, OUTPUT);
+pinMode(LM2, OUTPUT);
+pinMode(RM1, OUTPUT);
+pinMode(RM2, OUTPUT);
+pinMode(ledPin, OUTPUT);
+}
+void loop(){
+unsigned long currentMillis = millis();
+if(currentMillis - previousMillis >= interval) { // save the last time you blinked the LED
+previousMillis = currentMillis;
+if (ledState == LOW) // if the LED is off turn it on and vice-versa:
+ledState = HIGH;
+else
+ledState = LOW;
+digitalWrite(ledPin, ledState); // set the LED with the ledState of the variable:
+buttonState = digitalRead(buttonPin);
+//movement of the robot
+}
+53
+if(digitalRead(LS1) && digitalRead(RS)) // stop and make U-turn
+if(buttonState == LOW)
+{
+digitalWrite(LM1, LOW);
+digitalWrite(LM2, LOW);
+digitalWrite(RM1, LOW);
+digitalWrite(RM2, LOW);
+digitalWrite(ledPin, HIGH);
+delay(1000);
+digitalWrite(LM1, LOW);
+digitalWrite(LM2, LOW);
+digitalWrite(RM1, HIGH);
+digitalWrite(RM2, LOW);
+delay(2000);
+}
+else // stop
+if(buttonState == HIGH)
+{
+digitalWrite(LM1, LOW);
+digitalWrite(LM2, LOW);
+digitalWrite(RM1, LOW);
+digitalWrite(RM2, LOW);
+digitalWrite(ledPin, HIGH);
+}
+if(!(digitalRead(LS1)) && digitalRead(RS)) // Turn right
+{
+digitalWrite(LM1, LOW);
+54
+digitalWrite(LM2, LOW);
+digitalWrite(RM1, HIGH);
+digitalWrite(RM2, LOW);
+}
+if(digitalRead(LS1) && !(digitalRead(RS))) // turn left
+{
+digitalWrite(LM1, HIGH);
+digitalWrite(LM2, LOW);
+digitalWrite(RM1, LOW);
+digitalWrite(RM2, LOW);
+}
+if(!(digitalRead(LS1)) && !(digitalRead(RS))) // move forward
+{
+digitalWrite(LM1, HIGH);
+digitalWrite(LM2, LOW);
+digitalWrite(RM1, HIGH);
+digitalWrite(RM2, LOW);
+}
+if (digitalRead(LS2) && !digitalRead(RS)) // At the loading point
+if (buttonState == LOW)
+{
+digitalWrite(LM1, LOW);
+digitalWrite(LM2, LOW);
+digitalWrite(RM1, LOW);
+digitalWrite(RM2, LOW);
+55
+delay(3000);
+}
+else
+if (buttonState == HIGH) //loaded
+{
+digitalWrite(LM1, HIGH);
+digitalWrite(LM2, LOW);
+digitalWrite(RM1, HIGH);
+digitalWrite(RM2, LOW);
+}
+}
